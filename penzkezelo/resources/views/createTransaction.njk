@@ -1,0 +1,71 @@
+{% set showMenu = true %}
+
+{% extends 'master' %}
+
+{% block content %}
+<h1 class="text-center">Új tranzakció</h1>
+
+<div class="v-spacing-sm"></div>
+
+{% if old('errors') %}
+<div class="alert alert-danger" role="alert">
+  <ul>
+    {% for error in old('errors') %}
+    <li>{{ error.message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form class="form-horizontal" action="/transactions/create" method="POST">
+  {{ csrfField }}
+  <div class="form-group">
+    <label for="amount" class="col-sm-2 control-label">Összeg:</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" name="amount" value="{{ old('amount') }}" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Leírás:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="description" value="{{ old('description') }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="date" class="col-sm-2 control-label">Dátum:</label>
+    <div class="col-sm-10">
+      <input type="date" class="form-control" name="date" value="{{ old('date') if old('date') else date }}" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="type" class="col-sm-2 control-label">Típus:</label>
+    <div class="col-sm-10">
+      <select name="type" class="form-control">
+        <option value="Kiadás"{{ ' selected' if old('type') == 'Kiadás' or not old('type') }}>Kiadás</option>
+        <option value="Bevétel"{{ ' selected' if old('type') == 'Bevétel' }}>Bevétel</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="tags" class="col-sm-2 control-label">Címkék:</label>
+    <div class="col-sm-10" id="tag-checkboxes">
+      {% for tag in tags %}
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="tags[]" value="{{ tag.id }}"
+          {%- for tagId in old('tags') -%}
+          {{ ' checked' if tag.id == tagId }}
+          {%- endfor -%}>{{ tag.name }}
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">Hozzáadás</button>
+      <a class="btn btn-default" role="button" href="/transactions">Vissza</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

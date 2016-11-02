@@ -1,0 +1,36 @@
+{% set showMenu = true %}
+
+{% extends 'master' %}
+
+{% block content %}
+<h1 class="text-center">Címke szerkesztése</h1>
+
+<div class="v-spacing-sm"></div>
+
+{% if old('errors') %}
+<div class="alert alert-danger" role="alert">
+  <ul>
+    {% for error in old('errors') %}
+    <li>{{ error.message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form class="form-horizontal" action="/tags/{{ tag.id }}/edit" method="POST">
+  {{ csrfField }}
+  <div class="form-group">
+    <label for="name" class="col-sm-2 control-label">Név:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="name" value="{{ tag.name }}" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">Mentés</button>
+      <a class="btn btn-default" role="button" href="/tags">Vissza</a>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

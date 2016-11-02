@@ -115,23 +115,23 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 * GET/: főoldal
 * GET/login: bejelentkező oldal
 * POST/login: bejelentkező adatok felküldése
-* GET/login/signup: regisztrációs oldal
-* POST/login/signup: regisztrációs adatok felküldése
+* GET/signup: regisztrációs oldal
+* POST/signup: regisztrációs adatok felküldése
 * GET/logout: kijelentkező oldal
-* GET/users/edit=id: profiladatok módosítása
-* POST/users/edit=id: profiladatok módosítása, adatok felküldése
-* GET/transactions/list: tranzakció listaoldal
-* GET/transactions/new: új tranzakció felvétele
-* POST/transactions/new: új tranzakció felvételéhez szükséges adatok felküldése
-* GET/transactions/delete=id: tranzakció törlése
-* GET/transactions/edit=id: tranzakció módosítása
-* POST/transactions/edit=id: tranzakció módosítása, adatok felküldése
+* GET/user/edit: profiladatok módosítása
+* POST/user/edit: profiladatok módosítása, adatok felküldése
+* GET/transactions: tranzakció listaoldal
+* GET/transactions/create: új tranzakció felvétele
+* POST/transactions/create: új tranzakció felvételéhez szükséges adatok felküldése
+* POST/transactions/:id/delete: tranzakció törlése
+* GET/transactions/:id/edit: tranzakció módosítása
+* POST/transactions/:id/edit: tranzakció módosítása, adatok felküldése
 * GET/tags/list: címke listaoldal
-* GET/tags/new: új címke felvétele
-* POST/tags/new: új címke felvételéhez szükséges adatok felküldése
-* GET/tags/delete=id: címke törlése
-* GET/tags/edit=id: címke módosítása
-* POST/tags/edit=id: címke módosítása, adatok felküldése
+* GET/tags/create: új címke felvétele
+* POST/tags/create: új címke felvételéhez szükséges adatok felküldése
+* POST/tags/:id/delete: címke törlése
+* GET/tags/:id/edit: címke módosítása
+* POST/tags/:id/edit: címke módosítása, adatok felküldése
 
 #### 2.2. Felhasználói-felület modell
 
@@ -253,7 +253,7 @@ Github's Atom Editor
 
 ##### 3.1.2. Könyvtárstruktúra, funkciók
 
-* **ckd193-beadando1**
+* **penzkezelo**
   * **config**
     * _waterline.js_
   * **controllers**
@@ -274,7 +274,7 @@ Github's Atom Editor
       * _index.hbs_
       * _signup.hbs_
     * **transactions**
-      * _new.hbs_
+      * _create.hbs_
       * _edit.hbs_
       * _list.hbs_
     * _index.hbs_
@@ -338,7 +338,7 @@ Teszteljük sorban az egyes végpontok működését. Vegyünk most példának e
 Új tranzakció oldal elérése:
 ```javascript
 it('should go the transaction page', function () {
-  return browser.visit('/transactions/new')
+  return browser.visit('/transactions/create')
   .then(function () {
     browser.assert.success();
     browser.assert.text('div.page-header > h1', 'Új tranzakció felvétele');
@@ -366,7 +366,7 @@ A tesztfájl lefuttatásához használt parancs: `npm test`
 Sikeres tesztek lefutása után az alábbi üzenetet kell kapjuk:
 
 ```shell
-> @ test /home/ubuntu/workspace/ckd193-beadando1
+> @ test /home/ubuntu/workspace/penzkezelo
 > node_modules/mocha/bin/mocha **/*.test.js
 
   User visits index page
@@ -403,8 +403,6 @@ Sikeres tesztek lefutása után az alábbi üzenetet kell kapjuk:
 ### 5. Felhasználói dokumentáció
 
 **Futtatáshoz szükséges operációs rendszer:** Tetszőleges operációs rendszer
-
-**A futtatáshoz szükséges hardver:** Operációs rendszerek szerint megadva
 
 **Egyéb követelmények:** modern böngésző
 

@@ -1,0 +1,47 @@
+{% set showMenu = true %}
+
+{% extends 'master' %}
+
+{% block content %}
+<h1 class="text-center">Tranzakciók</h1>
+
+<div class="v-spacing-sm"></div>
+
+<a class="btn btn-default btn-sm" role="button" href="/transactions/create">Új tranzakció</a>
+
+<div class="v-spacing-md"></div>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+      <th>Összeg</th>
+      <th>Típus</th>
+      <th>Megjegyzés</th>
+      <th>Címkék</th>
+      <th>Dátum</th>
+      <th></th>
+    </tr>
+    {% for transaction in transactions %}
+    <tr>
+      <td>{{ transaction.amount }}</td>
+      <td>
+        <span class="label label-{{ 'danger' if transaction.type == 'Kiadás' else 'success' }}">{{ transaction.type }}</span>
+      </td>
+      <td>{{ transaction.description }}</td>
+      <td>
+        {%- for tag in transaction.tags -%}
+        <span class="label label-default">{{ tag.name }}</span>
+        {% endfor -%}
+      </td>
+      <td class="text-nowrap">{{ transaction.date }}</td>
+      <td class="text-nowrap text-right">
+        <form class="form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST">
+          {{ csrfField }}
+          <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
+          <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
