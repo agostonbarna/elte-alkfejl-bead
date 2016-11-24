@@ -1,0 +1,29 @@
+.container {
+  max-width: 800px;
+}
+
+.lead {
+  font-size: 1.8em;
+}
+
+label[for] {
+  font-weight: bold;
+}
+
+.v-spacing-sm {
+  height: 10px;
+}
+
+.v-spacing-md {
+  height: 20px;
+}
+
+.v-spacing-lg {
+  height: 30px;
+}
+
+#tag-checkboxes {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+}
