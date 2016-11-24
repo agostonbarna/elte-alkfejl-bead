@@ -17,12 +17,12 @@
 </div>
 {% endif %}
 
-<form class="form-horizontal" action="/tags/{{ tag.id }}/edit" method="POST">
+<form class="form-horizontal" action="/tags/{{ tag.id }}/edit" method="POST" data-toggle="validator">
   {{ csrfField }}
-  <div class="form-group">
+  <div class="form-group has-feedback">
     <label for="name" class="col-sm-2 control-label">Név:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="name" value="{{ tag.name }}" required>
+      <input type="text" class="form-control" name="name" value="{{ tag.name }}" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
@@ -32,5 +32,8 @@
     </div>
   </div>
 </form>
+{% endblock %}
 
+{% block scripts %}
+<script src="/js/bootstrap-validator.min.js"></script>
 {% endblock %}
