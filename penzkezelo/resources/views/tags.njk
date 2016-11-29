@@ -11,6 +11,18 @@
 
 <div class="v-spacing-md"></div>
 
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">Biztosan törölni szeretnéd?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success modal-ok" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-danger modal-cancel" data-dismiss="modal">Mégse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-responsive">
   <table class="table table-hover">
     <tr>
@@ -21,7 +33,7 @@
     <tr>
       <td>{{ tag.name }}</td>
       <td class="text-right">
-        <form class="form-inline" action="/tags/{{ tag.id }}/delete" method="POST">
+        <form class="delete-tag-form form-inline" action="/tags/{{ tag.id }}/delete" method="POST" data-id="{{ tag.id }}">
           {{ csrfField }}
           <a class="btn btn-primary btn-xs" role="button" href="/tags/{{ tag.id }}/edit">Szerkesztés</a>
           <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
@@ -32,4 +44,8 @@
 
   </table>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/tags.js"></script>
 {% endblock %}

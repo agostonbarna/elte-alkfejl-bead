@@ -19,6 +19,7 @@ Route.group('authenticated', () => {
   Route.get('/transactions/create', 'TransactionController.create')
   Route.post('/transactions/create', 'TransactionController.doCreate')
   Route.post('/transactions/:id/delete', 'TransactionController.doDelete')
+  Route.delete('/ajax/transactions/:id/delete', 'TransactionController.ajaxDelete')
   Route.get('/transactions/:id/edit', 'TransactionController.edit')
   Route.post('/transactions/:id/edit', 'TransactionController.doEdit')
 
@@ -28,6 +29,7 @@ Route.group('authenticated', () => {
   Route.get('/tags/create', 'TagController.create')
   Route.post('/tags/create', 'TagController.doCreate')
   Route.post('/tags/:id/delete', 'TagController.doDelete')
+  Route.delete('/ajax/tags/:id/delete', 'TagController.ajaxDelete')
   Route.get('/tags/:id/edit', 'TagController.edit')
   Route.post('/tags/:id/edit', 'TagController.doEdit')
 }).middleware('auth')

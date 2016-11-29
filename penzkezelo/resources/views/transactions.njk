@@ -10,6 +10,19 @@
 <a class="btn btn-default btn-sm" role="button" href="/transactions/create">Új tranzakció</a>
 
 <div class="v-spacing-md"></div>
+
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">Biztosan törölni szeretnéd?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success modal-ok" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-danger modal-cancel" data-dismiss="modal">Mégse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-responsive">
   <table class="table table-hover">
     <tr>
@@ -34,7 +47,7 @@
       </td>
       <td class="text-nowrap">{{ transaction.date }}</td>
       <td class="text-nowrap text-right">
-        <form class="form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST">
+        <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST" data-id="{{ transaction.id }}">
           {{ csrfField }}
           <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
           <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
@@ -44,4 +57,8 @@
     {% endfor %}
   </table>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/transactions.js"></script>
 {% endblock %}

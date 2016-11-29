@@ -94,6 +94,16 @@ class TagController {
 
     res.redirect('/tags')
   }
+
+  * ajaxDelete(req, res) {
+    if (req.ajax()) {
+      const tag = yield Tag.find(req.param('id'))
+
+      yield tag.delete()
+
+      res.ok({ success: true })
+    }
+  }
 }
 
 module.exports = TagController

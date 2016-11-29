@@ -173,6 +173,15 @@ class TransactionController {
     res.redirect('/transactions')
   }
 
+  * ajaxDelete(req, res) {
+    if (req.ajax()) {
+      const transaction = yield Transaction.find(req.param('id'))
+
+      yield transaction.delete()
+
+      res.ok({ success: true })
+    }
+  }
 }
 
 module.exports = TransactionController
