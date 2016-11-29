@@ -3,29 +3,32 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1 class="text-center">Egyenleg: {{ balance }} {{ currency }}</h1>
+<h1 class="text-center">Egyenleg: {{ chartData.balance }} {{ chartData.currency }}</h1>
 
 <div class="v-spacing-lg"></div>
 
 <canvas id="stat" width="400" height="220"></canvas>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/Chart.bundle.min.js"></script>
 <script>
 var ctx = document.getElementById("stat");
-var myChart = new Chart(ctx, {
+var chart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: {{ labels | dump | safe }},
+    labels: {{ chartData.labels | dump | safe }},
     datasets: [
       {
         label: 'Bevétel',
-        data: {{ incomeData | dump | safe }},
+        data: {{ chartData.incomeData | dump | safe }},
         backgroundColor: 'rgba(0, 200, 83, 0.2)',
         borderColor: 'rgba(0, 200, 83, 1)',
         borderWidth: 1
       },
       {
         label: 'Kiadás',
-        data: {{ expenseData | dump | safe }},
+        data: {{ chartData.expenseData | dump | safe }},
         backgroundColor: 'rgba(229, 57, 53, 0.2)',
         borderColor: 'rgba(229, 57, 53, 1)',
         borderWidth: 1
@@ -43,4 +46,5 @@ var myChart = new Chart(ctx, {
   }
 });
 </script>
+<script src="/js/updateChart.js"></script>
 {% endblock %}

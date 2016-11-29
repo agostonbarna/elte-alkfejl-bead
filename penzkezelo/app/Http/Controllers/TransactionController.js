@@ -6,37 +6,53 @@ const User = use('App/Model/User')
 const Validator = use('Validator')
 
 class TransactionController {
+
   * main(req, res) {
     const pageName = 'index'
     const user = req.currentUser
+    const chartData = yield this.getUserChartData(user)
+
+    yield res.sendView(pageName, {
+      pageName,
+      chartData
+    })
+  }
+
+  * ajaxGetChartData(req, res) {
+    const user = req.currentUser
+    const chartData = yield this.getUserChartData(user)
+
+    res.json(chartData)
+  }
+
+  * getUserChartData(user) {
     const transactions = yield user.transactions().fetch()
     const currency = yield user.currency().fetch()
     const incomes = transactions.filter(t => t.type == 'Bevétel')
     const expenses = transactions.filter(t => t.type == 'Kiadás')
     const balance = incomes.reduce((sum, t) => sum + t.amount, 0) - expenses.reduce((sum, t) => sum + t.amount, 0)
-    let labels = []
-    let incomeData = []
-    let expenseData = []
+
     let date = transactions.toJSON().reduce((max, x) => (new Date(x.date) > max) ? new Date(x.date) : max, null) || new Date()
+
+    let data = {
+      balance,
+      currency: currency.name,
+      labels: [],
+      incomeData: [],
+      expenseData: []
+    }
 
     for(let i = 0; i < 7; i++) {
       const dateStr = date.toJSON().slice(0,10)
-      labels.unshift(dateStr)
+      data.labels.unshift(dateStr)
       const income = incomes.filter(t => t.date == dateStr).reduce((sum, t) => sum + t.amount, 0)
-      incomeData.unshift(income)
+      data.incomeData.unshift(income)
       const expense = expenses.filter(t => t.date == dateStr).reduce((sum, t) => sum + t.amount, 0)
-      expenseData.unshift(expense)
+      data.expenseData.unshift(expense)
       date.setDate(date.getDate() - 1)
     }
 
-    yield res.sendView(pageName, {
-      pageName,
-      balance,
-      currency: currency.name,
-      labels,
-      incomeData,
-      expenseData,
-    })
+    return data;
   }
 
   * list(req, res) {
@@ -150,12 +166,13 @@ class TransactionController {
   }
 
   * doDelete(req, res) {
-      const transaction = yield Transaction.find(req.param('id'))
+    const transaction = yield Transaction.find(req.param('id'))
 
-     yield transaction.delete()
+    yield transaction.delete()
 
-      res.redirect('/transactions')
+    res.redirect('/transactions')
   }
+
 }
 
 module.exports = TransactionController
