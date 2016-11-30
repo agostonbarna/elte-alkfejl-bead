@@ -12,9 +12,11 @@ const Http = exports = module.exports = {}
  * @param  {Object} response
  */
 Http.handleError = function * (error, request, response) {
+  /**
+   * custom error pages
+   */
   if ([401, 404].indexOf(error.status) != -1) {
-    yield response.sendView(`errors/${error.status}`)
-    console.error(error.stack)
+    yield response.status(error.status).sendView(`errors/${error.status}`)
     return
   }
 
