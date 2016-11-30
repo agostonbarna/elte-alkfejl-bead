@@ -7,7 +7,21 @@
 
 <div class="v-spacing-sm"></div>
 
-<a class="btn btn-default btn-sm" role="button" href="/transactions/create">Új tranzakció</a>
+<div class="row">
+  <div class="col-xs-12 col-sm-2">
+    <a class="btn btn-default btn-sm" role="button" href="/transactions/create">Új tranzakció</a>
+  </div>
+  <form id="searchForm" class="col-xs-12 col-sm-offset-5 col-sm-5 hide">
+    <div class="input-group">
+      <input type="text" name="search" class="form-control" placeholder="Keresés...">
+      <span class="input-group-btn">
+        <button class="btn btn-default btn-sm" type="submit">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+      </span>
+    </div>
+  </form>
+</div>
 
 <div class="v-spacing-md"></div>
 
@@ -25,36 +39,19 @@
 
 <div class="table-responsive">
   <table class="table table-hover">
-    <tr>
-      <th>Összeg</th>
-      <th>Típus</th>
-      <th>Megjegyzés</th>
-      <th>Címkék</th>
-      <th>Dátum</th>
-      <th></th>
-    </tr>
-    {% for transaction in transactions %}
-    <tr>
-      <td>{{ transaction.amount }}</td>
-      <td>
-        <span class="label label-{{ 'danger' if transaction.type == 'Kiadás' else 'success' }}">{{ transaction.type }}</span>
-      </td>
-      <td>{{ transaction.description }}</td>
-      <td>
-        {%- for tag in transaction.tags -%}
-        <span class="label label-default">{{ tag.name }}</span>
-        {% endfor -%}
-      </td>
-      <td class="text-nowrap">{{ transaction.date }}</td>
-      <td class="text-nowrap text-right">
-        <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST" data-id="{{ transaction.id }}">
-          {{ csrfField }}
-          <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
-          <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
+    <thead>
+      <tr>
+        <th>Összeg</th>
+        <th>Típus</th>
+        <th>Megjegyzés</th>
+        <th>Címkék</th>
+        <th>Dátum</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="transactionTableBody">
+      {% include 'transactionRows' %}
+    </tbody>
   </table>
 </div>
 {% endblock %}

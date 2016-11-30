@@ -1,19 +1,20 @@
-function ajaxDeleteTag(id) {
-  const headers = {
-    'csrf-token': $('[name="_csrf"]').val()
-  }
-
+function ajaxDeleteTransaction(id) {
   return Promise.resolve(
     $.ajax({
-      url: `/ajax/tags/${id}/delete`,
+      url: `/ajax/transactions/${id}/delete`,
       method: 'DELETE',
-      dataType: 'json',
-      headers
+      dataType: 'json'
     })
   )
 }
 
 $(() => {
+
+  $.ajaxSetup({
+    headers: {
+      'csrf-token': $('[name="_csrf"]').val()
+    }
+  });
 
   $('.delete-tag-form').submit((e) => {
     e.preventDefault();

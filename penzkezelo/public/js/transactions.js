@@ -1,19 +1,20 @@
 function ajaxDeleteTransaction(id) {
-  const headers = {
-    'csrf-token': $('[name="_csrf"]').val()
-  }
-
   return Promise.resolve(
     $.ajax({
       url: `/ajax/transactions/${id}/delete`,
       method: 'DELETE',
-      dataType: 'json',
-      headers
+      dataType: 'json'
     })
   )
 }
 
 $(() => {
+
+  $.ajaxSetup({
+    headers: {
+      'csrf-token': $('[name="_csrf"]').val()
+    }
+  });
 
   $('.delete-transaction-form').submit((e) => {
     e.preventDefault();
@@ -29,5 +30,14 @@ $(() => {
     });
     $confirmModal.modal('show');
   });
+
+  let $searchForm = $('#searchForm')
+  $searchForm.submit((e) => {
+    e.preventDefault();
+
+    let $target = $(e.target);
+    $('#transactionTableBody').load('/ajax/getTransactionRows', $target.serializeArray());
+  });
+  $searchForm.removeClass('hide');
 
 });

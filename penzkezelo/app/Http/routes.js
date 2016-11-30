@@ -22,6 +22,7 @@ Route.group('authenticated', () => {
   Route.delete('/ajax/transactions/:id/delete', 'TransactionController.ajaxDelete')
   Route.get('/transactions/:id/edit', 'TransactionController.edit')
   Route.post('/transactions/:id/edit', 'TransactionController.doEdit')
+  Route.post('/ajax/getTransactionRows', 'TransactionController.getTransactionRows')
 
   Route.get('/ajax/getChartData', 'TransactionController.ajaxGetChartData')
 

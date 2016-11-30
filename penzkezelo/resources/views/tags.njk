@@ -25,23 +25,26 @@
 
 <div class="table-responsive">
   <table class="table table-hover">
+    <thead>
     <tr>
       <th>Címke</th>
       <th></th>
     </tr>
+    </thead>
+    <tbody>
     {% for tag in tags %}
-    <tr>
-      <td>{{ tag.name }}</td>
-      <td class="text-right">
-        <form class="delete-tag-form form-inline" action="/tags/{{ tag.id }}/delete" method="POST" data-id="{{ tag.id }}">
-          {{ csrfField }}
-          <a class="btn btn-primary btn-xs" role="button" href="/tags/{{ tag.id }}/edit">Szerkesztés</a>
-          <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-
+      <tr>
+        <td>{{ tag.name }}</td>
+        <td class="text-right">
+          <form class="delete-tag-form form-inline" action="/tags/{{ tag.id }}/delete" method="POST" data-id="{{ tag.id }}">
+            {{ csrfField }}
+            <a class="btn btn-primary btn-xs" role="button" href="/tags/{{ tag.id }}/edit">Szerkesztés</a>
+            <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    <tbody>
   </table>
 </div>
 {% endblock %}

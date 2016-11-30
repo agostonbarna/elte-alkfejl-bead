@@ -66,6 +66,23 @@ class TransactionController {
     })
   }
 
+  * getTransactionRows(req, res) {
+    const user = req.currentUser
+    let searchQuery = req.input('search').trim()
+    let transactionQuery = Transaction.query().where('user_id', user.id);
+    if (searchQuery != "") {
+      transactionQuery = transactionQuery.whereRaw("LOWER(description) LIKE '%' || LOWER(?) || '%'", searchQuery)
+    }
+    transactionQuery = transactionQuery.orderBy('date').with('tags')
+    const transactions = yield transactionQuery.fetch()
+    const pageName = 'transactionRows'
+
+    yield res.sendView(pageName, {
+      pageName,
+      transactions: transactions.toJSON()
+    })
+  }
+
   * create(req, res) {
     const pageName = 'createTransaction'
     const tags = yield Tag.query().orderBy('name').fetch()

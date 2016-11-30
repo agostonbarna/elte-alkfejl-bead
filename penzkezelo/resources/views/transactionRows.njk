@@ -1,0 +1,22 @@
+{% for transaction in transactions %}
+<tr>
+  <td>{{ transaction.amount }}</td>
+  <td>
+    <span class="label label-{{ 'danger' if transaction.type == 'Kiadás' else 'success' }}">{{ transaction.type }}</span>
+  </td>
+  <td>{{ transaction.description }}</td>
+  <td>
+    {%- for tag in transaction.tags -%}
+    <span class="label label-default">{{ tag.name }}</span>
+    {% endfor -%}
+  </td>
+  <td class="text-nowrap">{{ transaction.date }}</td>
+  <td class="text-nowrap text-right">
+    <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST" data-id="{{ transaction.id }}">
+      {{ csrfField }}
+      <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
+      <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
+    </form>
+  </td>
+</tr>
+{% endfor %}
