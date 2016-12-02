@@ -49,13 +49,11 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 
 * Egyenleg megtekintése
 * Profiladatok szerkesztése
+* Profil törlése
 * Meglévő tranzakciók megtekintése
 * Meglévő tranzakció szerkesztése
 * Meglévő tranzakció törlése
 * Új tranzakció felvétele
-* Meglévő kategória szerkesztése
-* Meglévő kategória törlése
-* Új kategória felvétele
 * Meglévő címkék megtekintése
 * Meglévő címke szerkesztése
 * Meglévő címke törlése
