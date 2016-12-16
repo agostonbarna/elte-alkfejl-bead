@@ -31,12 +31,12 @@ $(() => {
     $confirmModal.modal('show');
   });
 
-  let $searchForm = $('#searchForm')
+  let $searchForm = $('#search-form');
   $searchForm.submit((e) => {
     e.preventDefault();
 
     let $target = $(e.target);
-    $('#transactionTableBody').load('/ajax/getTransactionRows', $target.serializeArray());
+    $('#transaction-table-body').load('/ajax/getTransactionRows', $target.serializeArray());
   });
   $searchForm.removeClass('hide');
 

@@ -15,7 +15,7 @@
     <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST" data-id="{{ transaction.id }}">
       {{ csrfField }}
       <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
-      <button type="submit" class="btn btn-danger btn-xs">Törlés</button>
+      <button type="submit" class="btn btn-danger btn-xs delete-btn">Törlés</button>
     </form>
   </td>
 </tr>

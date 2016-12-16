@@ -3,7 +3,7 @@
   { title: 'Tranzakciók', name: 'transactions', url: '/transactions', position: 'left' },
   { title: 'Címkék', name: 'tags', url: '/tags', position: 'left' },
   { title: 'Profil', name: 'editUser', url: '/user/edit', position: 'right' },
-  { title: 'Kijelentkezés', name: '', url: '/logout', position: 'right' },
+  { title: 'Kijelentkezés', name: 'logout', url: '/logout', position: 'right' },
   { title: 'Új tranzakció', name: 'createTransaction', url: '/transactions/create' },
   { title: 'Tranzakció szerkesztése', name: 'editTransaction', url: '/transactions/edit' },
   { title: 'Új címke', name: 'createTag', url: '/transactions/create' },
@@ -13,7 +13,7 @@
 ] %}
 
 {%- macro navbarMenuItem(page) -%}
-<li class="{{ 'active' if pageName == page.name }}"><a href="{{ '#' if pageName == page.name else page.url }}">{{ page.title }}</a></li>
+<li class="{{ 'active' if pageName == page.name }}"><a href="{{ '#' if pageName == page.name else page.url }}" id="{{ page.name + '-link' }}">{{ page.title }}</a></li>
 {%- endmacro -%}
 
 {%- macro title() -%}

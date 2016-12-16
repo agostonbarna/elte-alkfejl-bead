@@ -1,7 +1,7 @@
-function ajaxDeleteTransaction(id) {
+function ajaxDeleteTag(id) {
   return Promise.resolve(
     $.ajax({
-      url: `/ajax/transactions/${id}/delete`,
+      url: `/ajax/tags/${id}/delete`,
       method: 'DELETE',
       dataType: 'json'
     })
