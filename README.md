@@ -12,6 +12,8 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 
 ##### Funkcionális követelmények:
 
+###### Általános funkciók
+
 * Regisztráció
 * Bejelentkezés
 * Csak bejelentkezett felhasználók által elérhető funkciók
@@ -21,10 +23,29 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
   - meglévő tranzakció szerkesztése
   - meglévő tranzakció törlése
   - új tranzakció felvételére a listába
+  - tranzakciók szűrése/keresése
   - meglévő címkék listázása
   - meglévő címke szerkesztése
   - meglévő címke törlése
   - új címke felvételére a listába
+
+###### Kliens oldali JavaScript-tel elérhető funkciók
+
+* AJAX diagram frissítés adott időközönként
+* AJAX tranzakció keresés
+* AJAX tranzakció törlés
+* AJAX címke törlés
+* Modális megerősítés kérés:
+  - tranzakció törlésről
+  - címke törlésről
+  - felhasználói profil törlésről
+* Kliens oldali form validálás:
+  - bejelentkezésnél
+  - regisztrációnál
+  - új tranzakció felvételénél
+  - tranzakció szerkesztésénél
+  - új címke felvételénél
+  - címke szerkesztésénél
 
 ##### Nem funkcionális követelmények:
 
@@ -54,6 +75,7 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 * Meglévő tranzakció szerkesztése
 * Meglévő tranzakció törlése
 * Új tranzakció felvétele
+* Tranzakciók szűrése
 * Meglévő címkék megtekintése
 * Meglévő címke szerkesztése
 * Meglévő címke törlése
@@ -103,6 +125,7 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
   * Tranzakció szerkesztése
   * Tranzakció törlése
   * Új tranzakció felvétele
+  * Tranzakciók szűrése
 * Címkék
   * Címke szerkesztése
   * Címke törlése
@@ -110,26 +133,32 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 
 ##### 2.1.3. Végpontok
 
-* GET/: főoldal
-* GET/login: bejelentkező oldal
-* POST/login: bejelentkező adatok felküldése
-* GET/signup: regisztrációs oldal
-* POST/signup: regisztrációs adatok felküldése
-* GET/logout: kijelentkező oldal
-* GET/user/edit: profiladatok módosítása
-* POST/user/edit: profiladatok módosítása, adatok felküldése
-* GET/transactions: tranzakció listaoldal
-* GET/transactions/create: új tranzakció felvétele
-* POST/transactions/create: új tranzakció felvételéhez szükséges adatok felküldése
-* POST/transactions/:id/delete: tranzakció törlése
-* GET/transactions/:id/edit: tranzakció módosítása
-* POST/transactions/:id/edit: tranzakció módosítása, adatok felküldése
-* GET/tags/list: címke listaoldal
-* GET/tags/create: új címke felvétele
-* POST/tags/create: új címke felvételéhez szükséges adatok felküldése
-* POST/tags/:id/delete: címke törlése
-* GET/tags/:id/edit: címke módosítása
-* POST/tags/:id/edit: címke módosítása, adatok felküldése
+Típus  | URL | Leírás
+-------|-----|-------
+GET    | / | főoldal
+GET    | /login | bejelentkező oldal
+POST   | /login | bejelentkező adatok felküldése
+GET    | /signup | regisztrációs oldal
+POST   | /signup | regisztrációs adatok felküldése
+GET    | /logout | kijelentkező oldal
+GET    | /user/edit | profiladatok módosítása
+POST   | /user/edit | profiladatok módosítása, adatok felküldése
+POST   | /user/delete | felhasználói profil törlése
+GET    | /transactions | tranzakció listaoldal
+GET    | /transactions/create | új tranzakció felvétele
+POST   | /transactions/create | új tranzakció felvételéhez szükséges adatok felküldése
+POST   | /transactions/:id/delete | tranzakció törlése
+DELETE | /ajax/transactions/:id/delete | ajax tranzakció törlés
+GET    | /transactions/:id/edit | tranzakció módosítása
+POST   | /transactions/:id/edit | tranzakció módosítása, adatok felküldése
+POST   | /ajax/getTransactionRows | ajax tranzankció lista lekérése (szűrővel)
+GET    | /tags/list | címke listaoldal
+GET    | /tags/create | új címke felvétele
+POST   | /tags/create | új címke felvételéhez szükséges adatok felküldése
+POST   | /tags/:id/delete | címke törlése
+DELETE | /ajax/tags/:id/delete | ajax címke törlés
+GET    | /tags/:id/edit | címke módosítása
+POST   | /tags/:id/edit | címke módosítása, adatok felküldése
 
 #### 2.2. Felhasználói-felület modell
 
@@ -183,7 +212,7 @@ A program legfőbb célja jól átláthatóan, és érthetően megjeleníteni az
 
 **Főoldal kijelentkezve**
 
-![](docs/images/kepernyokep/fooldal-bejelentkezve.png)
+![](docs/images/kepernyokep/fooldal-kijelentkezve.png)
 
 **Főoldal bejelentkezve**
 
@@ -251,152 +280,181 @@ Github's Atom Editor
 
 ##### 3.1.2. Könyvtárstruktúra, funkciók
 
-* **penzkezelo**
-  * **config**
-    * _waterline.js_
-  * **controllers**
-    * _index.js_
-    * _transactions.js_
-    * _login.js_
-  * **models**
-    * _transactions.js_
-    * _transactions.test.js_
-    * _tags.js_
-    * _tags.test.js_
-    * _currencies.js_
-    * _currencies.test.js_
-    * _user.js_
-    * _user.test.js_
-  * **views**: handlebars (hbs) fájlok
-    * **login**
-      * _index.hbs_
-      * _signup.hbs_
-    * **transactions**
-      * _create.hbs_
-      * _edit.hbs_
-      * _list.hbs_
-    * _index.hbs_
-    * _layout.hbs_
-  * _bower.json_
-  * _package.json_
-  * _server.js_
+- penzkezelo
+  - app
+    - Commands
+       - Greet.js
+    - Http
+       - Controllers
+       - TagController.js
+       - TransactionController.js
+       - UserController.js
+       - Middleware
+       - kernel.js
+       - routes.js
+    - Listeners
+       - Http.js
+    - Model
+      - Hooks
+        - User.js
+      - Currency.js
+      - Tag.js
+      - Token.js
+      - Transaction.js
+      - User.js
+  - config
+    - app.js
+    - auth.js
+    - bodyParser.js
+    - cors.js
+    - database.js
+    - event.js
+    - session.js
+    - shield.js
+  - database
+    - migrations
+       - 1477925627080_create_users_table.js
+       - 1477925627081_create_tokens_table.js
+       - 1477925692019_transactions.js
+       - 1477933872549_tags.js
+       - 1477934112817_currencies.js
+       - 1478008834360_transaction_tag.js
+    - seeds
+       - Database.js
+    - development.sqlite
+    - factory.js
+  - public
+    - js
+      - Chart.bundle.min.js
+      - bootstrap-validator.min.js
+      - bootstrap.min.js
+      - jquery.min.js
+      - tags.js
+      - transactions.js
+      - updateChart.js
+      - user.js
+  - resources
+    - views
+      - errors
+        - 401.njk
+        - 404.njk
+        - index.njk
+      - createTag.njk
+      - createTransaction.njk
+      - editTag.njk
+      - editTransaction.njk
+      - editUser.njk
+      - index.njk
+      - login.njk
+      - master.njk
+      - signup.njk
+      - tags.njk
+      - transactionRows.njk
+      - transactions.njk
+  - test
+    - delete-tag.html
+    - delete-transaction.html
+    - login-failure.html
+    - login-success.html
+    - tests.html
+  - package.json
+  - server.js
 
 ### 4. Tesztelés
 
-#### 4.1. Tesztelési környezetek
+#### 4.1. Tesztesetek
 
-Kétféle tesztelési módszert használunk a program teljeskörű tesztelésére. Először egységteszteket végzünk a mocha keretrendszer és a chai ellenőrző könyvtár segítségével. Egységtesztelés közben a modellek működését, a problémamentes funkciókat és műveleteket ellenőrizzük.
-Másodszor a funkcionális tesztelés segítségével a végpontokat ellenőrizzük, a megfelelő tartalom megjelenését, és az oldalak működőképességét.
+* Oldalak láthatósága (bejelentkezve, kijelentkezve)
+* Bejelentkezés hibás adatokkal
+* Sikeres bejelentkezés
+* Profiladatok szerkesztése
+* Profil törlése
+* Tranzakció szerkesztése
+* Tranzakció törlése
+* Új tranzakció felvétele
+* Címke szerkesztése
+* Címke törlése
+* Új címke felvétele
 
 #### 4.2. Egységteszt
 
-Kiválasztjuk a tesztelni kívánt modelt (ezesetben a user modelt), és létrehozunk hozzá egy tesztelő fájlt.
-Legyen ez most a: **_user.test.js_**
+##### Sikertelen bejelentkezés
 
-Hozzuk létre az abstract modellréteget (ORM), majd vegyük sorra a teszteseteket.
+Command                | Target              | Value
+-----------------------|---------------------|------
+`open`                 | `/login`            |
+`type`                 | `name=username`     | `x`
+`type`                 | `name=password`     | `y`
+`clickAndWait`         | `name=login`        |
+`assertElementPresent` | `css=.alert-danger` |
 
-Regisztráció tesztelése: user létrehozása
+##### Sikeres bejelentkezés
 
-```javascript
-it('should be able to create a user', function () {
-  return User.create(getUserData())
-  .then(function (user) {
-    expect(user.felhnev).to.equal('abcdef');
-    expect(bcrypt.compareSync('jelszo', user.password)).to.be.true;
-    expect(user.surname).to.equal('Gipsz');
-    expect(user.forename).to.equal('Jakab');
-    expect(user.avatar).to.equal('');
-  });
-});
+Command                | Target           | Value
+-----------------------|------------------|------
+`open`                 | `/login`         |
+`type`                 | `name=username`  | `test`
+`type`                 | `name=password`  | `test`
+`clickAndWait`         | `name=login`     |
+`assertElementPresent` | `id=logout-link` |
+
+##### Tranzakció törlés
+
+Command              | Target            | Value
+---------------------|-------------------|------
+`open`               | `/transactions`   |
+`storeAttribute`     | `xpath=//form[contains(@class, 'delete-transaction-form')]@data-id` | `id`
+`click`              | `css=.delete-btn` |
+`click`              | `css=.modal-ok`   |
+`verifyNotAttribute` | `xpath=//form[contains(@class, 'delete-transaction-form')]@data-id` | `${id}`
+
+##### Címke törlés
+
+Command              | Target            | Value
+---------------------|-------------------|------
+`open`               | `/transactions`   |
+`storeAttribute`     | `xpath=//form[contains(@class, 'delete-tag-form')]@data-id` | `id`
+`click`              | `css=.delete-btn` |
+`click`              | `css=.modal-ok`   |
+`verifyNotAttribute` | `xpath=//form[contains(@class, 'delete-tag-form')]@data-id` | `${id}`
+
+##### Egységteszt kimenete
+
 ```
+[info] Playing test case login-failure
+[info] Executing: |open | /login | |
+[info] Executing: |type | name=username | x |
+[info] Executing: |type | name=password | y |
+[info] Executing: |clickAndWait | name=login | |
+[info] Executing: |assertElementPresent | css=.alert-danger | |
+[info] Test case passed
 
-Jelszó ellenőrzése, helyes és hibás jelszó esetén
+[info] Playing test case login-success
+[info] Executing: |open | /login | |
+[info] Executing: |type | name=username | test |
+[info] Executing: |type | name=password | test |
+[info] Executing: |clickAndWait | name=login | |
+[info] Executing: |assertElementPresent | id=logout-link | |
+[info] Test case passed
 
-```javascript
-describe('# validPassword', function() {
-  it('should return true with right password', function() {
-    return User.create(getUserData()).then(function(user) {
-      expect(user.validPassword('jelszo')).to.be.true;
-    })
-  });
-  it('should return false with wrong password', function() {
-    return User.create(getUserData()).then(function(user) {
-      expect(user.validPassword('titkos')).to.be.false;
-    })
-  });
-});
+[info] Playing test case delete-transaction
+[info] Executing: |open | /transactions | |
+[info] Executing: |storeAttribute | xpath=//form[contains(@class, 'delete-transaction-form')]@data-id | id |
+[info] Executing: |click | css=.delete-btn | |
+[info] Executing: |click | css=.modal-ok | |
+[info] Executing: |verifyNotAttribute | xpath=//form[contains(@class, 'delete-transaction-form')]@data-id | ${id} |
+[info] Test case passed
+
+[info] Playing test case delete-tag
+[info] Executing: |open | /tags | |
+[info] Executing: |storeAttribute | xpath=//form[contains(@class, 'delete-tag-form')]@data-id | id |
+[info] Executing: |click | css=.delete-btn | |
+[info] Executing: |click | css=.modal-ok | |
+[info] Executing: |verifyNotAttribute | xpath=//form[contains(@class, 'delete-tag-form')]@data-id | ${id} |
+[info] Test case passed
+
+[info] Test suite completed: 4 played, all passed!
 ```
-
-#### 4.3. Funkcionális teszetelés
-
-Válasszuk ki a tesztelni kívánt modelt (ezesetben transactions), és hozzuk létre hozzá a tesztelő fájlt. Nevezzük el: **_transactions.test.js_**
-
-Teszteljük sorban az egyes végpontok működését. Vegyünk most példának egy végpontot, és egy funkció működését:
-
-Új tranzakció oldal elérése:
-```javascript
-it('should go the transaction page', function () {
-  return browser.visit('/transactions/create')
-  .then(function () {
-    browser.assert.success();
-    browser.assert.text('div.page-header > h1', 'Új tranzakció felvétele');
-  });
-});
-```
-Sikeres bejelentkezés a megfelelő adatokkal:
-```javascript
-it('should be able to login with correct credentials', function (done) {
-  browser
-  .fill('felhnev', 'Ellasandra')
-  .fill('password', 'titkos')
-  .pressButton('button[type=submit]')
-  .then(function () {
-    browser.assert.redirected();
-    browser.assert.success();
-    browser.assert.url({ pathname: '/transactions/list' });
-    done();
-  });
-});
-```
-
-A tesztfájl lefuttatásához használt parancs: `npm test`
-
-Sikeres tesztek lefutása után az alábbi üzenetet kell kapjuk:
-
-```shell
-> @ test /home/ubuntu/workspace/penzkezelo
-> node_modules/mocha/bin/mocha **/*.test.js
-
-  User visits index page
-    ✓ should be successful
-    ✓ should see welcome page
-
-  User visits new transaction page
-    ✓ should go to the authentication page
-    ✓ should be able to login with correct credentials (1706ms)
-    ✓ should go the transaction page (154ms)
-
-  UserModel
-    ✓ should work
-    ✓ should be able to create a user (536ms)
-    ✓ should be able to find a user (514ms)
-    ✓ should be able to update a user (524ms)
-    # validPassword
-      ✓ should return true with right password (493ms)
-      ✓ should return false with wrong password (486ms)
-
-  11 passing (5s)
-```
-
-#### 4.4.Tesztesetek
-
-* Főoldal láthatósága
-* Felhasználó létrehozása
-* Felhasználó módosítása
-* Bejelentkezés jó, és rossz jelszóval
-* Sikeres bejelentkezés
-* Csak bejelentkezett felhasználó által látható oldal láthatósága
-* Új tranzakció felvétele oldal láthatósága
 
 ### 5. Felhasználói dokumentáció
 
