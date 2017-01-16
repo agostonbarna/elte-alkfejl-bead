@@ -16,27 +16,33 @@ $(() => {
     }
   });
 
-  $('.delete-transaction-form').submit((e) => {
-    e.preventDefault();
+  let $confirmDeleteModal = $('#confirm-delete-modal');
+  let $confirmDeleteModalOk = $confirmDeleteModal.find('.modal-ok');
 
-    let $target = $(e.target);
-    let $confirmModal = $('#confirm-delete-modal');
-    let $confirmModalOk = $confirmModal.find('.modal-ok');
-
-    $confirmModalOk.click((e) => {
-      const id = $target.data('id');
-      $target.closest('tr').remove();
+  $confirmDeleteModal.on('show.bs.modal', function(e) {
+    let $relatedTarget = $(e.relatedTarget);
+    let id = $relatedTarget.data('id');
+    $confirmDeleteModalOk.click(function(e) {
+      $relatedTarget.closest('tr').remove();
       ajaxDeleteTransaction(id);
     });
-    $confirmModal.modal('show');
+  });
+
+  $confirmDeleteModal.on('hide.bs.modal', function(e) {
+    $confirmDeleteModalOk.off();
+  });
+
+  $('.delete-transaction-form').submit(function(e) {
+    e.preventDefault();
   });
 
   let $searchForm = $('#search-form');
-  $searchForm.submit((e) => {
+  let $transactionTableBody = $('#transaction-table-body');
+  $searchForm.submit(function(e) {
     e.preventDefault();
 
-    let $target = $(e.target);
-    $('#transaction-table-body').load('/ajax/getTransactionRows', $target.serializeArray());
+    let $target = $(this);
+    $transactionTableBody.load('/ajax/getTransactionRows', $target.serializeArray());
   });
   $searchForm.removeClass('hide');
 

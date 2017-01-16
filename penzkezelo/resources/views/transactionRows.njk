@@ -12,10 +12,10 @@
   </td>
   <td class="text-nowrap">{{ transaction.date }}</td>
   <td class="text-nowrap text-right">
-    <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST" data-id="{{ transaction.id }}">
+    <form class="delete-transaction-form form-inline" action="/transactions/{{ transaction.id }}/delete" method="POST">
       {{ csrfField }}
       <a class="btn btn-primary btn-xs" role="button" href="/transactions/{{ transaction.id }}/edit">Szerkesztés</a>
-      <button type="submit" class="btn btn-danger btn-xs delete-btn">Törlés</button>
+      <button type="submit" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target="#confirm-delete-modal" data-id="{{ transaction.id }}">Törlés</button>
     </form>
   </td>
 </tr>

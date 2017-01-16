@@ -270,7 +270,7 @@ POST   | /tags/:id/edit | címke módosítása, adatok felküldése
 
 Vegyünk példának a regisztrációt, majd egy új elem felvételét, szerkesztését, törlését, mindezt szekvenciadiagrammon.
 
-![](docs/images/szekvenciadiagram.svg)
+![](docs/images/szekvenciadiagram.png)
 
 ### 3. Implementáció
 
@@ -376,7 +376,7 @@ Github's Atom Editor
 * Címke törlése
 * Új címke felvétele
 
-#### 4.2. Egységteszt
+#### 4.2. Funkcionális teszetelés
 
 ##### Sikertelen bejelentkezés
 
@@ -418,7 +418,7 @@ Command              | Target            | Value
 `click`              | `css=.modal-ok`   |
 `verifyNotAttribute` | `xpath=//form[contains(@class, 'delete-tag-form')]@data-id` | `${id}`
 
-##### Egységteszt kimenete
+##### Tesztek kimenete
 
 ```
 [info] Playing test case login-failure

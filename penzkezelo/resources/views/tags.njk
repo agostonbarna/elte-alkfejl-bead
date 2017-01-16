@@ -36,10 +36,10 @@
       <tr>
         <td>{{ tag.name }}</td>
         <td class="text-right">
-          <form class="delete-tag-form form-inline" action="/tags/{{ tag.id }}/delete" method="POST" data-id="{{ tag.id }}">
+          <form class="delete-tag-form form-inline" action="/tags/{{ tag.id }}/delete" method="POST">
             {{ csrfField }}
             <a class="btn btn-primary btn-xs" role="button" href="/tags/{{ tag.id }}/edit">Szerkesztés</a>
-            <button type="submit" class="btn btn-danger btn-xs delete-btn">Törlés</button>
+            <button type="submit" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target="#confirm-delete-modal" data-id="{{ tag.id }}">Törlés</button>
           </form>
         </td>
       </tr>
